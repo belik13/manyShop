@@ -1,0 +1,96 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../data/site.js';
+import { categories, productsByCategory, fullName } from '../../data/products.js';
+
+export function getStaticPaths() {
+  return categories.map((c) => ({ params: { cat: c.slug }, props: { c } }));
+}
+
+const { c } = Astro.props;
+const items = productsByCategory(c.slug);
+const path = `/katalog/${c.slug}/`;
+
+const title = `${c.name} из Китая под заказ — аналоги брендов | Relent`;
+const description = `${c.name} напрямую с фабрик Китая: аналоги европейских брендов с экономией до 70%, инспекция качества, белая логистика и доставка по России. Бесплатный расчёт по вашей позиции.`;
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Каталог', item: SITE.url + '/katalog/' },
+      { '@type': 'ListItem', position: 3, name: c.name, item: SITE.url + path },
+    ],
+  },
+  ...(items.length
+    ? [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          itemListElement: items.map((p, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            name: fullName(p),
+            url: `${SITE.url}/analog/${p.slug}/`,
+          })),
+        },
+      ]
+    : []),
+];
+---
+
+<Base title={title} description={description} canonical={path} ogImage={c.image} jsonld={jsonld}>
+  <main class="subpage">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span class="sep">/</span>
+        <a href="/katalog/">Каталог</a><span class="sep">/</span>
+        <span class="cur">{c.name}</span>
+      </nav>
+      <div class="page-head">
+        <h1>{c.name} из Китая под заказ</h1>
+        <p class="page-lede">{c.desc}</p>
+      </div>
+
+      {items.length > 0 ? (
+        <div class="card-grid">
+          {items.map((p) => (
+            <a class="pcard" href={`/analog/${p.slug}/`}>
+              <div class="pcard-photo" style={`background-image:url('${p.photoChina}')`}></div>
+              <div class="pcard-body">
+                <div class="pcard-tag">{p.country} · {p.brand}</div>
+                <div class="pcard-name">{p.type} {p.model}</div>
+                <div class="pcard-price"><s>{p.priceOrig}</s> → <b>{p.priceChina}</b> · −{p.save}%</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="prose">
+          <p>
+            Подбираем {c.accus} под ваш проект индивидуально — с фабрик, специализирующихся именно на этой
+            категории. Пришлите референс или спецификацию, и мы предложим варианты с ценой, сроками и
+            фотоотчётом перед отгрузкой.
+          </p>
+          <ul class="checks">
+            <li>Прямые контракты с профильными фабриками Китая</li>
+            <li>Инспекция качества и замер перед отправкой</li>
+            <li>Белая логистика с вычетом НДС, доставка по РФ</li>
+          </ul>
+        </div>
+      )}
+    </div>
+
+    <div class="cta-band">
+      <div class="wrap">
+        <div>
+          <h2>Рассчитать {c.accus} из Китая</h2>
+          <p>Бесплатный расчёт по вашей позиции за 24 часа — с ценой, сроками и доставкой по России.</p>
+        </div>
+        <a class="btn light" href="/kontakty/">Получить расчёт <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </main>
+</Base>

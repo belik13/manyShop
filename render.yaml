@@ -1,0 +1,12 @@
+# Render Blueprint — статический сайт Relent (Astro)
+# Render сам ставит зависимости, собирает и раздаёт папку dist/
+services:
+  - type: web
+    name: relent-site
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN

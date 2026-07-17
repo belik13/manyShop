@@ -1,0 +1,103 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../data/site.js';
+import { services, products } from '../../data/products.js';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { type: s.slug }, props: { s } }));
+}
+
+const { s } = Astro.props;
+const path = `/uslugi/${s.slug}/`;
+const examples = products.slice(0, 3);
+
+const title = `Комплектация ${s.gen} мебелью из Китая под ключ — Relent`;
+const description = `${s.desc} Подбор на фабриках Китая, контроль качества, белая логистика с вычетом НДС и доставка по всей России. Бесплатный расчёт за 24 часа.`;
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Что комплектуем', item: SITE.url + '/uslugi/' },
+      { '@type': 'ListItem', position: 3, name: s.name, item: SITE.url + path },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: `Комплектация ${s.gen} мебелью и материалами из Китая`,
+    provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    areaServed: { '@type': 'Country', name: SITE.areaServed },
+    description: s.desc,
+  },
+];
+---
+
+<Base title={title} description={description} canonical={path} ogImage={s.image} jsonld={jsonld}>
+  <main class="subpage">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span class="sep">/</span>
+        <a href="/uslugi/">Что комплектуем</a><span class="sep">/</span>
+        <span class="cur">{s.name}</span>
+      </nav>
+      <div class="page-head">
+        <h1>Комплектация {s.gen} мебелью из Китая</h1>
+        <p class="page-lede">{s.desc}</p>
+      </div>
+
+      <div style={`aspect-ratio:16/6; background-image:url('${s.image}'); background-size:cover; background-position:center; filter:grayscale(0.85) brightness(0.95); border:1px solid var(--line); margin-bottom:40px;`}></div>
+
+      <div class="prose">
+        <h2>Что входит в комплектацию</h2>
+        <p>
+          Берём на себя весь цикл — от подбора позиций по вашему дизайн-проекту до доставки на объект.
+          Мебель, освещение, сантехника, двери, плитка и отделочные материалы идут единым потоком, под
+          ответственностью одной команды в Китае.
+        </p>
+        <ul class="checks">
+          <li>Подбор аналогов брендовых моделей с экономией до 70%</li>
+          <li>Один договор и одна точка ответственности за весь объект</li>
+          <li>Инспекция качества и фотоотчёт на каждом этапе</li>
+          <li>Белая логистика с вычетом НДС и доставка по всей России</li>
+        </ul>
+
+        <h2>Как это работает</h2>
+        <p>
+          Получаем спецификацию или визуализацию, бесплатно считаем 10 позиций для понимания выгоды, затем
+          размещаем заказы на согласованных фабриках, проверяем продукцию перед отгрузкой, консолидируем
+          груз и доставляем до объекта в согласованные сроки. Подробнее — на странице
+          {' '}<a href="/kak-rabotaem/">«Как проходит работа»</a>.
+        </p>
+      </div>
+
+      <div style="padding-top:56px;">
+        <h2 style="font-family:var(--ff-display); font-weight:400; font-size:26px; margin-bottom:6px;">Примеры позиций</h2>
+        <div class="card-grid">
+          {examples.map((p) => (
+            <a class="pcard" href={`/analog/${p.slug}/`}>
+              <div class="pcard-photo" style={`background-image:url('${p.photoChina}')`}></div>
+              <div class="pcard-body">
+                <div class="pcard-tag">{p.country} · {p.brand}</div>
+                <div class="pcard-name">{p.type} {p.model}</div>
+                <div class="pcard-price"><s>{p.priceOrig}</s> → <b>{p.priceChina}</b></div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <div class="wrap">
+        <div>
+          <h2>Рассчитать комплектацию {s.gen}</h2>
+          <p>Пришлите дизайн-проект или спецификацию — бесплатный расчёт за 24 часа с доставкой по РФ.</p>
+        </div>
+        <a class="btn light" href="/kontakty/">Отправить проект <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </main>
+</Base>

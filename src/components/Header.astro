@@ -1,0 +1,15 @@
+---
+import { NAV } from '../data/site.js';
+---
+<header id="siteHeader">
+  <div class="wrap">
+    <a href="/" class="logo">Relent</a>
+    <nav class="links">
+      {NAV.map((i) => <a href={i.href}>{i.label}</a>)}
+    </nav>
+    <div class="nav-cta">
+      <a class="btn light" href="/kontakty/">Отправить проект <span class="btn-arrow">→</span></a>
+      <div class="burger" id="burger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site.js';
+
+const title = 'Контакты — Relent | Комплектация мебели из Китая под ключ';
+const description =
+  'Свяжитесь с Relent: почта relentgroup@gmail.com, Telegram @aleksandrmkd. Бесплатный расчёт комплектации мебелью и материалами из Китая, доставка по всей России.';
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    name: 'Контакты Relent',
+    url: SITE.url + '/kontakty/',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Контакты', item: SITE.url + '/kontakty/' },
+    ],
+  },
+];
+---
+
+<Base title={title} description={description} canonical="/kontakty/" jsonld={jsonld}>
+  <main class="subpage">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span class="sep">/</span><span class="cur">Контакты</span>
+      </nav>
+      <div class="page-head">
+        <h1>Контакты</h1>
+        <p class="page-lede">
+          Отправьте дизайн-проект, спецификацию или ссылку на модель — проанализируем и предложим решение
+          комплектации напрямую от производителей в Китае. Работаем по всей России.
+        </p>
+      </div>
+
+      <div class="factbar">
+        <div><div class="fv"><a href={`mailto:${SITE.email}`}>Почта</a></div><div class="fl">{SITE.email}</div></div>
+        <div><div class="fv"><a href={SITE.telegramUrl} target="_blank" rel="noopener">Telegram</a></div><div class="fl">{SITE.telegram}</div></div>
+        <div><div class="fv">Вся Россия</div><div class="fl">Доставка на объект</div></div>
+        <div><div class="fv">Китай</div><div class="fl">Гуанчжоу · Фошань · Шэньчжэнь</div></div>
+      </div>
+    </div>
+
+    <section class="cta-section">
+      <div class="wrap">
+        <div class="cta-grid">
+          <div class="cta-left">
+            <div class="eyebrow">Получить консультацию</div>
+            <h2>Бесплатный расчёт<br>при заполнении заявки</h2>
+            <p>Мы проанализируем проект и предложим решение комплектации напрямую от производителей в Китае. Отвечаем на заявки в течение 3 минут.</p>
+          </div>
+          <div class="cta-form-wrap">
+            <form id="projectForm">
+              <div class="field">
+                <label for="user_name">Имя</label>
+                <input type="text" id="user_name" placeholder="Как к вам обращаться" required />
+              </div>
+              <div class="field">
+                <label for="user_phone">Номер телефона</label>
+                <input type="tel" id="user_phone" placeholder="+7 ___ ___ __ __" required />
+              </div>
+              <div class="field">
+                <label for="user_contact">Почта / WhatsApp / Telegram</label>
+                <input type="text" id="user_contact" placeholder="you@company.com или @username" required />
+              </div>
+              <div class="field">
+                <label for="object_type">Тип объекта</label>
+                <select id="object_type">
+                  <option>Квартира / апартаменты</option>
+                  <option>Частный дом</option>
+                  <option>Отель</option>
+                  <option>Коммерческий объект</option>
+                </select>
+              </div>
+              <button type="submit" class="btn light form-submit">Бесплатный расчёт <span class="btn-arrow">→</span></button>
+              <div class="form-note">Отвечаем на заявки в течение 3 минут</div>
+            </form>
+          </div>
+          <div class="cta-steps">
+            <div><span>01</span> Заявка принимается в работу в течение суток</div>
+            <div><span>02</span> Подбираем позиции и фабрики под ваш бюджет</div>
+            <div><span>03</span> Присылаем расчёт со сроками и стоимостью</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

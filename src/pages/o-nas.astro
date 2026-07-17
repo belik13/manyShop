@@ -1,0 +1,83 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site.js';
+
+const title = 'О компании Relent — команда по комплектации из Китая';
+const description =
+  'Relent — команда в Китае, которая комплектует объекты мебелью и материалами напрямую с фабрик Гуанчжоу, Фошаня и Шэньчжэня. Договоры с 150+ фабриками, контроль качества, доставка по России.';
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'О компании Relent',
+    url: SITE.url + '/o-nas/',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: 'О компании', item: SITE.url + '/o-nas/' },
+    ],
+  },
+];
+---
+
+<Base title={title} description={description} canonical="/o-nas/" jsonld={jsonld}>
+  <main class="subpage">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span class="sep">/</span><span class="cur">О компании</span>
+      </nav>
+      <div class="page-head">
+        <h1>О компании Relent</h1>
+        <p class="page-lede">Мы находимся в Китае и работаем непосредственно с производителями — без цепочки посредников между вами и фабрикой.</p>
+      </div>
+
+      <div class="factbar">
+        <div><div class="fv">150+</div><div class="fl">Фабрик-партнёров</div></div>
+        <div><div class="fv">3</div><div class="fl">Города производства</div></div>
+        <div><div class="fv">1</div><div class="fl">Команда и договор</div></div>
+        <div><div class="fv">0</div><div class="fl">Посредников</div></div>
+      </div>
+
+      <div class="prose">
+        <h2>Что мы делаем</h2>
+        <p>
+          Relent — команда по комплектации объектов мебелью и отделочными материалами напрямую из Китая.
+          Берём проект «под ключ»: подбираем позиции по вашему дизайн-проекту, размещаем заказы на
+          проверенных фабриках, контролируем производство, инспектируем качество и доставляем груз до
+          объекта в любую точку России.
+        </p>
+        <h2>Почему напрямую с фабрик</h2>
+        <p>
+          Одни и те же модели и материалы у европейских брендов стоят в 3–4 раза дороже — за счёт наценки
+          бутика, маркетинга и дистрибьюторов. Мы находимся на месте, в Гуанчжоу, Фошане и Шэньчжэне, и
+          работаем с производителями напрямую, поэтому вы платите за изделие, а не за витрину.
+        </p>
+        <ul class="checks">
+          <li>Полная прозрачность действий и фотоотчёт на каждом этапе</li>
+          <li>Контроль качества каждого изделия перед отгрузкой</li>
+          <li>Одна компания вместо 20 посредников</li>
+          <li>Договоры более чем с 150 фабриками</li>
+        </ul>
+        <p>
+          Посмотрите, <a href="/kak-rabotaem/">как проходит работа</a>, изучите
+          {' '}<a href="/katalog/">каталог с аналогами брендов</a> или сразу
+          {' '}<a href="/kontakty/">отправьте проект на расчёт</a>.
+        </p>
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <div class="wrap">
+        <div>
+          <h2>Обсудим ваш объект?</h2>
+          <p>Бесплатный расчёт 10 позиций, чтобы вы увидели выгоду ещё до старта.</p>
+        </div>
+        <a class="btn light" href="/kontakty/">Отправить проект <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </main>
+</Base>

@@ -1,0 +1,21 @@
+# build output
+dist/
+# generated types
+.astro/
+# dependencies
+node_modules/
+# logs
+npm-debug.log*
+# environment
+.env
+.env.production
+# OS
+.DS_Store
+Thumbs.db
+
+# --- секреты: реальный обработчик формы содержит токен Telegram-бота ---
+send-project.php
+public/send-project.php
+
+# build artifacts
+relent-site.zip

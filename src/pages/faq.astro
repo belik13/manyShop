@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site.js';
+
+const title = 'Вопросы и ответы о комплектации мебелью из Китая — Relent';
+const description =
+  'Частые вопросы о заказе мебели и комплектации объектов из Китая: сроки, оплата, качество, гарантии, НДС и доставка по России.';
+
+const faqs = [
+  ['Сколько стоит подбор и расчёт?', 'Расчёт бесплатный. Мы бесплатно подбираем до 10 позиций по вашему проекту, чтобы вы увидели выгоду ещё до старта работ. Предоплата берётся только за саму продукцию после согласования.'],
+  ['Насколько дешевле, чем европейский оригинал?', 'По аналогам брендовых моделей экономия обычно составляет 65–75% относительно цены европейского бутика — за счёт прямой работы с фабриками, без наценки дистрибьюторов.'],
+  ['Как вы контролируете качество?', 'Наши инспекторы проверяют производство на месте и проводят инспекцию перед отгрузкой: проверяют на брак, комплектность и соответствие. Вы получаете фото- и видеоотчёт до того, как груз покинет фабрику.'],
+  ['Как происходит оплата?', 'Обычно 50% предоплаты за продукцию для запуска производства и оставшиеся 50% — после успешной инспекции перед отгрузкой. Условия фиксируются в договоре.'],
+  ['Работаете ли вы с НДС?', 'Да. Мы работаем «в белую»: официальные документы, таможенное оформление через партнёров и возможность вычета НДС для юридических лиц.'],
+  ['Доставляете ли по всей России?', 'Да, доставляем груз до объекта в любую точку России. Способ перевозки (авто, ЖД, авиа) подбираем под сроки и объём.'],
+  ['Какие объекты вы комплектуете?', 'Квартиры и апартаменты, частные дома, отели, рестораны и коммерческие объекты — от отдельных позиций до комплектации «под ключ».'],
+  ['С чего начать?', 'Пришлите дизайн-проект, спецификацию или ссылку на модель через форму на странице контактов — ответим и подготовим расчёт.'],
+];
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Вопросы и ответы', item: SITE.url + '/faq/' },
+    ],
+  },
+];
+---
+
+<Base title={title} description={description} canonical="/faq/" jsonld={jsonld}>
+  <main class="subpage">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span class="sep">/</span><span class="cur">Вопросы и ответы</span>
+      </nav>
+      <div class="page-head">
+        <h1>Вопросы и ответы</h1>
+        <p class="page-lede">Частые вопросы о заказе мебели и комплектации объектов напрямую из Китая.</p>
+      </div>
+
+      <div class="faq-list">
+        {faqs.map(([q, a]) => (
+          <details class="faq-item">
+            <summary>{q}</summary>
+            <p>{a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <div class="wrap">
+        <div>
+          <h2>Остались вопросы?</h2>
+          <p>Напишите нам — ответим и подготовим бесплатный расчёт по вашему проекту.</p>
+        </div>
+        <a class="btn light" href="/kontakty/">Задать вопрос <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </main>
+
+  <style>
+    .faq-list { border-top: 1px solid var(--line); max-width: 820px; }
+    .faq-item {
+      border-bottom: 1px solid var(--line);
+      padding: 4px 0;
+    }
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      font-family: var(--ff-display);
+      font-size: 19px;
+      padding: 20px 40px 20px 0;
+      position: relative;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+';
+      position: absolute;
+      right: 4px;
+      top: 18px;
+      font-family: var(--ff-mono);
+      font-size: 20px;
+      color: var(--accent);
+      transition: transform 0.3s ease;
+    }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item p {
+      color: var(--grey);
+      font-size: 15.5px;
+      line-height: 1.6;
+      padding: 0 40px 22px 0;
+      max-width: 720px;
+    }
+  </style>
+</Base>

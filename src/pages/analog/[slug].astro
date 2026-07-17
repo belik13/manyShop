@@ -1,0 +1,160 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../data/site.js';
+import { products, getCategory, productsByCategory, fullName } from '../../data/products.js';
+
+export function getStaticPaths() {
+  return products.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+
+const { p } = Astro.props;
+const cat = getCategory(p.category);
+const name = fullName(p);
+const path = `/analog/${p.slug}/`;
+
+const title = `${name} — аналог из Китая за ${p.priceChina} вместо ${p.priceOrig} | Relent`;
+const description = `Аналог ${p.typeGen} ${p.brand} ${p.model} из Китая: та же модель и материалы за ${p.priceChina} вместо ${p.priceOrig} (−${p.save}%). Подбор на фабрике, контроль качества, доставка по России. Бесплатный расчёт за 24 часа.`;
+
+const sameCat = productsByCategory(p.category).filter((x) => x.slug !== p.slug);
+const others = products.filter((x) => x.slug !== p.slug && x.category !== p.category);
+const related = [...sameCat, ...others].slice(0, 3);
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Каталог', item: SITE.url + '/katalog/' },
+      { '@type': 'ListItem', position: 3, name: cat.name, item: `${SITE.url}/katalog/${cat.slug}/` },
+      { '@type': 'ListItem', position: 4, name: p.model, item: SITE.url + path },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: `${name} — аналог`,
+    image: [new URL(p.photoChina, SITE.url).href],
+    description: p.desc,
+    category: cat.name,
+    brand: { '@type': 'Brand', name: 'Relent' },
+    offers: {
+      '@type': 'Offer',
+      price: p.priceChinaNum,
+      priceCurrency: p.currency,
+      availability: 'https://schema.org/InStock',
+      url: SITE.url + path,
+      seller: { '@type': 'Organization', name: SITE.name },
+    },
+  },
+];
+---
+
+<Base title={title} description={description} canonical={path} ogImage={p.photoChina} jsonld={jsonld}>
+  <main class="subpage">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span class="sep">/</span>
+        <a href="/katalog/">Каталог</a><span class="sep">/</span>
+        <a href={`/katalog/${cat.slug}/`}>{cat.name}</a><span class="sep">/</span>
+        <span class="cur">{p.model}</span>
+      </nav>
+
+      <div class="page-head">
+        <h1>{name} — аналог из Китая</h1>
+        <p class="page-lede">
+          Та же модель, тот же силуэт и материалы, что у оригинала {p.brand} ({p.country}) — но цена
+          собирается на фабрике в Китае, а не в бутике. Экономия до <b>−{p.save}%</b>.
+        </p>
+      </div>
+
+      <div class="compare-list">
+        <div class="cmp-row">
+          <div class="cmp-head">
+            <div class="cmp-model">{name}</div>
+            <div class="cmp-save">Выгода −{p.save}%</div>
+          </div>
+          <div class="cmp-pair">
+            <div class="cmp-cell">
+              <div class="cmp-photo" style={`background-image:url('${p.photoOrig}')`}></div>
+              <div>
+                <div class="cmp-tag">Оригинал</div>
+                <div class="cmp-origin">{p.country} · {p.brand}</div>
+                <div class="cmp-price old">{p.priceOrig}</div>
+              </div>
+            </div>
+            <div class="cmp-cell china">
+              <div class="cmp-photo" style={`background-image:url('${p.photoChina}')`}></div>
+              <div>
+                <div class="cmp-tag">Та же модель</div>
+                <div class="cmp-origin">Китай · напрямую с фабрики</div>
+                <div class="cmp-price accent">{p.priceChina}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="factbar">
+        <div><div class="fv">−{p.save}%</div><div class="fl">Экономия vs оригинал</div></div>
+        <div><div class="fv">24 ч</div><div class="fl">Расчёт по позиции</div></div>
+        <div><div class="fv">100%</div><div class="fl">Инспекция перед отгрузкой</div></div>
+        <div><div class="fv">РФ</div><div class="fl">Доставка по России</div></div>
+      </div>
+
+      <div class="prose">
+        <h2>Что это за модель</h2>
+        <p>{p.desc}</p>
+
+        <h2>Почему аналог из Китая дешевле</h2>
+        <p>
+          Оригинал {p.brand} {p.model} продаётся под европейским брендом с наценкой бутика, маркетинга и
+          цепочки дистрибьюторов. Мы работаем напрямую с фабриками в Гуанчжоу, Фошане и Шэньчжэне, где
+          {' '}{p.type.toLowerCase()} собирают по идентичной технологии и из тех же материалов — вы платите
+          за изделие, а не за витрину в Милане.
+        </p>
+        <ul class="checks">
+          <li>Та же конструкция, силуэт и материалы, что у оригинала</li>
+          <li>Инспекция качества и фото-/видеоотчёт перед отгрузкой</li>
+          <li>Белая логистика с вычетом НДС, доставка по всей России</li>
+          <li>Один договор и одна точка ответственности за весь заказ</li>
+        </ul>
+
+        <h2>Как заказать аналог {p.brand} {p.model}</h2>
+        <p>
+          Пришлите ссылку или фото модели — за 24 часа посчитаем точную стоимость аналога с доставкой до
+          вашего объекта. Бесплатный расчёт, без предоплаты за подбор. Дороже оригинал или дешевле в вашем
+          случае — покажем прозрачно.
+        </p>
+      </div>
+
+      {related.length > 0 && (
+        <div style="padding-top:64px;">
+          <h2 style="font-family:var(--ff-display); font-weight:400; font-size:26px; margin-bottom:6px;">Похожие аналоги</h2>
+          <div class="card-grid">
+            {related.map((r) => (
+              <a class="pcard" href={`/analog/${r.slug}/`}>
+                <div class="pcard-photo" style={`background-image:url('${r.photoChina}')`}></div>
+                <div class="pcard-body">
+                  <div class="pcard-tag">{r.country} · {r.brand}</div>
+                  <div class="pcard-name">{r.type} {r.model}</div>
+                  <div class="pcard-price"><s>{r.priceOrig}</s> → <b>{r.priceChina}</b></div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+
+    <div class="cta-band">
+      <div class="wrap">
+        <div>
+          <h2>Рассчитать {name} из Китая</h2>
+          <p>Бесплатный расчёт по вашей позиции за 24 часа — с ценой, сроками и доставкой по РФ.</p>
+        </div>
+        <a class="btn light" href="/kontakty/">Получить расчёт <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </main>
+</Base>

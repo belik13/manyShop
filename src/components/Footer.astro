@@ -1,0 +1,31 @@
+---
+import { SITE } from '../data/site.js';
+const year = 2026;
+---
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-logo">Relent</div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h5>Навигация</h5>
+          <a href="/katalog/">Каталог</a>
+          <a href="/uslugi/">Что комплектуем</a>
+          <a href="/kak-rabotaem/">Как работаем</a>
+          <a href="/#cases">Кейсы</a>
+          <a href="/faq/">Вопросы и ответы</a>
+        </div>
+        <div class="foot-col">
+          <h5>Контакты</h5>
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          <a href={SITE.telegramUrl} target="_blank" rel="noopener">Telegram: {SITE.telegram}</a>
+          <div>{SITE.city}</div>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© {year} Relent — Комплектация объектов из Китая</div>
+      <div>Fabric-checked · Shipped worldwide</div>
+    </div>
+  </div>
+</footer>

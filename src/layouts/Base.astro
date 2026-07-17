@@ -1,0 +1,209 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../data/site.js';
+
+const {
+  title,
+  description = SITE.description,
+  canonical = Astro.url.pathname,
+  ogImage = '/images/hero.jpg',
+  jsonld = [],
+  noindex = false,
+} = Astro.props;
+
+const canonicalURL = new URL(canonical, Astro.site).href;
+const ogImageURL = new URL(ogImage, Astro.site).href;
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  url: SITE.url,
+  email: SITE.email,
+  description: SITE.description,
+  sameAs: [SITE.telegramUrl],
+  areaServed: { '@type': 'Country', name: SITE.areaServed },
+};
+
+const pageSchemas = Array.isArray(jsonld) ? jsonld : [jsonld];
+const schemas = [orgSchema, ...pageSchemas];
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:locale" content="ru_RU" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+
+    <script>
+      // ---- header background on scroll ----
+      const header = document.getElementById('siteHeader');
+      if (header) {
+        window.addEventListener('scroll', () => {
+          header.classList.toggle('scrolled', window.scrollY > 40);
+        });
+      }
+
+      // ---- reveal on scroll ----
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('in-view');
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+      // ---- cases carousel: drag-to-scroll (desktop) ----
+      const casesScroll = document.querySelector('.cases-scroll');
+      if (casesScroll) {
+        let isDown = false;
+        let startX = 0;
+        let scrollStart = 0;
+        let moved = false;
+        casesScroll.addEventListener('mousedown', (e) => {
+          isDown = true;
+          moved = false;
+          casesScroll.classList.add('dragging');
+          startX = e.pageX;
+          scrollStart = casesScroll.scrollLeft;
+        });
+        window.addEventListener('mouseup', () => {
+          if (!isDown) return;
+          isDown = false;
+          casesScroll.classList.remove('dragging');
+        });
+        window.addEventListener('mousemove', (e) => {
+          if (!isDown) return;
+          e.preventDefault();
+          const dx = e.pageX - startX;
+          if (Math.abs(dx) > 4) moved = true;
+          casesScroll.scrollLeft = scrollStart - dx;
+        });
+        casesScroll.addEventListener(
+          'click',
+          (e) => {
+            if (moved) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          },
+          true
+        );
+      }
+
+      // ---- mobile nav ----
+      const burger = document.getElementById('burger');
+      const navLinks = document.querySelector('nav.links');
+      if (burger && navLinks) {
+        burger.addEventListener('click', () => {
+          const isOpen = navLinks.classList.toggle('mobile-open');
+          burger.classList.toggle('open', isOpen);
+          navLinks.style.cssText = isOpen
+            ? 'display:flex; flex-direction:column; position:fixed; top:0; right:0; bottom:0; width:78vw; max-width:320px; background:#26251f; padding:100px 30px; gap:26px; z-index:105; box-shadow:-8px 0 30px rgba(0,0,0,0.3);'
+            : '';
+        });
+        navLinks.addEventListener('click', (e) => {
+          if (e.target instanceof HTMLAnchorElement) {
+            navLinks.classList.remove('mobile-open');
+            burger.classList.remove('open');
+            navLinks.style.cssText = '';
+          }
+        });
+      }
+
+      // ---- project form submit ----
+      const form = document.getElementById('projectForm');
+      if (form) {
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          const btn = this.querySelector('.form-submit');
+          if (!btn) return;
+          const originalText = btn.innerHTML;
+          btn.innerHTML = '⏳ Отправка...';
+          btn.disabled = true;
+
+          const get = (id) => document.getElementById(id);
+          const nameField = get('user_name');
+          const phoneField = get('user_phone');
+          const contactField = get('user_contact');
+          const objtypeField = get('object_type');
+
+          if (!nameField || !phoneField || !contactField || !objtypeField) {
+            alert('Ошибка: не все поля формы найдены.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            return;
+          }
+          const data = {
+            name: nameField.value.trim(),
+            phone: phoneField.value.trim(),
+            contact: contactField.value.trim(),
+            objtype: objtypeField.value || 'Не указан',
+          };
+          if (!data.name || !data.phone || !data.contact) {
+            alert('Пожалуйста, заполните имя, телефон и контактные данные');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            return;
+          }
+          try {
+            const response = await fetch('/send-project.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data),
+            });
+            const result = await response.json();
+            if (response.ok && result.success) {
+              btn.innerHTML = '✅ Заявка отправлена!';
+              btn.style.background = '#a9adaa';
+              btn.style.borderColor = '#a9adaa';
+              btn.disabled = true;
+              alert('Спасибо! Ваша заявка успешно отправлена. Мы свяжемся с вами в ближайшее время.');
+            } else {
+              throw new Error(result.error || 'Ошибка отправки');
+            }
+          } catch (error) {
+            alert('Произошла ошибка при отправке. Попробуйте позже или напишите нам в Telegram.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

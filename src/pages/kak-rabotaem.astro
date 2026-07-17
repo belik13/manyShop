@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site.js';
+
+const title = 'Как проходит работа — 7 этапов комплектации из Китая | Relent';
+const description =
+  'Как мы комплектуем объекты из Китая: проект, договор, подбор производителей, производство, инспекция, консолидация и доставка по России. Прозрачно, с фотоотчётом на каждом этапе.';
+
+const steps = [
+  ['Проект', 'Получаем дизайн-проект, спецификацию или ТЗ и анализируем объём поставки. Бесплатный подбор 10 наименований для понимания выгоды.'],
+  ['Начало работы', 'Заключаем договор, фиксируем объём работ и после внесения депозита приступаем к подбору производителей.'],
+  ['Подбор производителей', 'Формируем пул фабрик под ваш проект, оценивая производственные возможности, качество, сроки и коммерческие условия.'],
+  ['Производство', 'Размещаем заказы на согласованных фабриках. После 50% предоплаты производители запускают изготовление.'],
+  ['Инспекция', 'Проверяем качество, комплектность и соответствие продукции перед отгрузкой, предоставляем фото- и видеоотчёты. После подтверждения вносятся оставшиеся 50%.'],
+  ['Консолидация', 'Свозим продукцию от всех производителей на склад, проверяем артикулы на скрытые дефекты, объединяем груз и готовим к международной отправке.'],
+  ['Доставка', 'Организуем перевозку, таможенное оформление через партнёров и доставку груза до объекта в согласованные сроки.'],
+];
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'Как проходит комплектация объекта мебелью из Китая',
+    step: steps.map((s, i) => ({ '@type': 'HowToStep', position: i + 1, name: s[0], text: s[1] })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Как работаем', item: SITE.url + '/kak-rabotaem/' },
+    ],
+  },
+];
+---
+
+<Base title={title} description={description} canonical="/kak-rabotaem/" jsonld={jsonld}>
+  <main class="subpage">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span class="sep">/</span><span class="cur">Как работаем</span>
+      </nav>
+      <div class="page-head">
+        <h1>Как проходит работа</h1>
+        <p class="page-lede">Семь этапов, которые проходит каждый проект — от чертежа до воплощения мечты. Прозрачно, под ответственностью одной команды в Китае.</p>
+      </div>
+    </div>
+
+    <section class="process" style="padding-top:20px;">
+      <div class="wrap">
+        <div class="flow">
+          <div class="flow-node">Проект</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Договор</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Подбор производителей</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Производство</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Инспекция</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Консолидация</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Доставка</div>
+        </div>
+        <div class="process-list">
+          {steps.map((s) => (
+            <div class="p-step">
+              <h4>{s[0]}</h4>
+              <p>{s[1]}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-band">
+      <div class="wrap">
+        <div>
+          <h2>Готовы посчитать ваш проект?</h2>
+          <p>Пришлите спецификацию — бесплатно подберём 10 позиций и покажем экономию.</p>
+        </div>
+        <a class="btn light" href="/kontakty/">Отправить проект <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </main>
+</Base>
