@@ -1,0 +1,109 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../data/site.js';
+import { catalogs } from '../../data/catalogs.js';
+
+const path = '/skachat-katalogi/';
+const title = 'Скачать каталоги мебели и материалов из Китая — Relent';
+const description =
+  'Каталоги мебели, освещения, сантехники, плитки и дверей с фабрик Китая — скачайте бесплатно в PDF. Без регистрации. Подбор позиций и расчёт под ваш проект за 24 часа.';
+
+const ready = catalogs.filter((c) => c.file);
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Каталоги', item: SITE.url + path },
+    ],
+  },
+  ...(ready.length
+    ? [{
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        itemListElement: ready.map((c, i) => ({
+          '@type': 'ListItem', position: i + 1, name: c.title,
+          url: new URL(c.file, SITE.url).href,
+        })),
+      }]
+    : []),
+];
+---
+
+<Base title={title} description={description} canonical={path} jsonld={jsonld}>
+  <main class="subpage">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span class="sep">/</span><span class="cur">Каталоги</span>
+      </nav>
+
+      <div class="page-head">
+        <h1>Каталоги для скачивания</h1>
+        <p class="page-lede">
+          Подборки моделей с фабрик-партнёров в Китае — мебель, освещение, сантехника и отделочные
+          материалы. Скачивание свободное, без регистрации и заявки.
+        </p>
+      </div>
+
+      <div class="cat-grid">
+        {catalogs.map((c) => (
+          <article class="dl-card">
+            <div class="dl-cover" style={`background-image:url('${c.cover}')`}>
+              <span class="dl-badge">{c.category}</span>
+            </div>
+            <div class="dl-body">
+              <h2 class="dl-title">{c.title}</h2>
+              <p class="dl-desc">{c.desc}</p>
+              <div class="dl-foot">
+                {c.file ? (
+                  <>
+                    <a class="btn on-white dl-btn" href={c.file} download>
+                      Скачать PDF <span class="btn-arrow">↓</span>
+                    </a>
+                    <span class="dl-meta">
+                      {[c.pages && `${c.pages} стр.`, c.size].filter(Boolean).join(' · ')}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <a class="btn on-white dl-btn is-soon" href="/kontakty/">
+                      Запросить каталог <span class="btn-arrow">→</span>
+                    </a>
+                    <span class="dl-meta">Готовится к публикации</span>
+                  </>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="prose" style="padding-top:56px;">
+        <h2>Как пользоваться каталогами</h2>
+        <p>
+          В каталогах собраны модели, которые мы регулярно поставляем с проверенных фабрик. Найдите
+          подходящие позиции, пришлите нам артикулы или просто ссылку на модель — за 24 часа посчитаем
+          стоимость с доставкой до вашего объекта.
+        </p>
+        <ul class="checks">
+          <li>Цена фиксируется после подтверждения спецификации</li>
+          <li>Инспекция качества и фотоотчёт перед отгрузкой</li>
+          <li>Белая логистика с вычетом НДС, доставка по всей России</li>
+          <li>Нужной позиции нет в каталоге — найдём по вашему референсу</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <div class="wrap">
+        <div>
+          <h2>Нужен расчёт по позициям из каталога?</h2>
+          <p>Пришлите артикулы или дизайн-проект — бесплатно подберём и посчитаем за 24 часа.</p>
+        </div>
+        <a class="btn light" href="/kontakty/">Отправить на расчёт <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </main>
+</Base>

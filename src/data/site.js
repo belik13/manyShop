@@ -16,8 +16,8 @@ export const SITE = {
 // Main navigation (shared by header & footer).
 export const NAV = [
   { label: 'Каталог', href: '/katalog/' },
-  { label: 'Что комплектуем', href: '/uslugi/' },
+  { label: 'Проекты', href: '/proekty/' },
+  { label: 'Скачать каталоги', href: '/skachat-katalogi/' },
   { label: 'Как работаем', href: '/kak-rabotaem/' },
-  { label: 'Кейсы', href: '/#cases' },
   { label: 'Контакты', href: '/kontakty/' },
 ];

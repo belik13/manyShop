@@ -1,0 +1,125 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../data/site.js';
+import { cases } from '../../data/cases.js';
+
+export function getStaticPaths() {
+  return cases.map((c) => ({ params: { slug: c.slug }, props: { c } }));
+}
+
+const { c } = Astro.props;
+const path = `/proekty/${c.slug}/`;
+const title = `${c.tag}: ${c.title} — проект Relent`;
+const description = `${c.short} Комплектация напрямую с фабрик Китая, бюджет ${c.budget}. Состав поставки, контроль качества и доставка по России.`;
+
+const others = cases.filter((x) => x.slug !== c.slug).slice(0, 3);
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Проекты', item: SITE.url + '/proekty/' },
+      { '@type': 'ListItem', position: 3, name: `${c.tag} — ${c.title}`, item: SITE.url + path },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: `${c.tag}: ${c.title}`,
+    description: c.short,
+    image: new URL(c.photo, SITE.url).href,
+    creator: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+  },
+];
+---
+
+<Base title={title} description={description} canonical={path} ogImage={c.photo} jsonld={jsonld}>
+  <main class="subpage">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span class="sep">/</span>
+        <a href="/proekty/">Проекты</a><span class="sep">/</span>
+        <span class="cur">{c.title}</span>
+      </nav>
+
+      <div class="page-head">
+        <div class="case-eyebrow">{c.tag}</div>
+        <h1>{c.title}</h1>
+        <p class="page-lede">{c.short}</p>
+      </div>
+
+      <figure class="case-hero zoomable" data-src={c.photo}>
+        <div class="case-hero-img" style={`background-image:url('${c.photo}')`}></div>
+        <figcaption>{c.tag} · {c.title}</figcaption>
+      </figure>
+
+      <div class="factbar">
+        <div><div class="fv">{c.budget}</div><div class="fl">Общий чек</div></div>
+        <div><div class="fv">{c.scope.length}</div><div class="fl">Групп поставки</div></div>
+        <div><div class="fv">100%</div><div class="fl">Инспекция перед отгрузкой</div></div>
+        <div><div class="fv">РФ</div><div class="fl">Доставка на объект</div></div>
+      </div>
+
+      <div class="case-cols">
+        <div class="prose">
+          <h2>О проекте</h2>
+          <p>{c.intro}</p>
+          <h2>Как шла работа</h2>
+          <p>
+            Проект прошёл стандартные этапы: анализ спецификации, подбор фабрик под задачу и бюджет,
+            производство, инспекция качества с фото- и видеоотчётом, консолидация груза на складе в Китае
+            и доставка до объекта. Подробнее — на странице <a href="/kak-rabotaem/">«Как проходит работа»</a>.
+          </p>
+        </div>
+        <aside class="case-side">
+          <h3>Что вошло в комплектацию</h3>
+          <ul class="checks">
+            {c.scope.map((s) => <li>{s}</li>)}
+          </ul>
+          <a class="btn on-white" href="/kontakty/" style="margin-top:22px;">
+            Хочу так же <span class="btn-arrow">→</span>
+          </a>
+        </aside>
+      </div>
+
+      {c.gallery.length > 0 && (
+        <div style="padding-top:56px;">
+          <h2 style="font-family:var(--ff-display); font-weight:400; font-size:26px; margin-bottom:16px;">Фотографии объекта</h2>
+          <div class="gallery">
+            {c.gallery.map((g) => (
+              <div class="gal-item zoomable" data-src={g} style={`background-image:url('${g}')`}></div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div style="padding-top:64px;">
+        <h2 style="font-family:var(--ff-display); font-weight:400; font-size:26px; margin-bottom:6px;">Другие проекты</h2>
+        <div class="card-grid">
+          {others.map((o) => (
+            <a class="pcard" href={`/proekty/${o.slug}/`}>
+              <div class="pcard-photo" style={`background-image:url('${o.photo}')`}></div>
+              <div class="pcard-body">
+                <div class="pcard-tag">{o.tag}</div>
+                <div class="pcard-name">{o.title}</div>
+                <div class="pcard-price">Общий чек · <b>{o.budget}</b></div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <div class="wrap">
+        <div>
+          <h2>Рассчитать похожий проект</h2>
+          <p>Бесплатный расчёт 10 позиций по вашему дизайн-проекту — за 24 часа.</p>
+        </div>
+        <a class="btn light" href="/kontakty/">Отправить проект <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </main>
+</Base>

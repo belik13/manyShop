@@ -41,7 +41,8 @@ const jsonld = [
 ];
 ---
 
-<Base title={title} description={description} canonical={path} ogImage={c.image} jsonld={jsonld}>
+<Base title={title} description={description} canonical={path} ogImage={c.image} jsonld={jsonld}
+      noindex={items.length === 0}>
   <main class="subpage">
     <div class="wrap">
       <nav class="crumbs" aria-label="Хлебные крошки">

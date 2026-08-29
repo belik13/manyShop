@@ -205,5 +205,74 @@ const schemas = [orgSchema, ...pageSchemas];
         });
       }
     </script>
+
+    <!-- Лайтбокс: полноэкранный просмотр фото -->
+    <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр фотографии">
+      <button class="lb-close" id="lbClose" aria-label="Закрыть">&times;</button>
+      <button class="lb-nav lb-prev" id="lbPrev" aria-label="Предыдущее фото">&#8249;</button>
+      <img id="lbImg" src="" alt="" />
+      <button class="lb-nav lb-next" id="lbNext" aria-label="Следующее фото">&#8250;</button>
+      <div class="lb-count" id="lbCount"></div>
+    </div>
+
+    <script>
+      // ---- лайтбокс ----
+      (function () {
+        const lb = document.getElementById('lightbox');
+        if (!lb) return;
+        const img = document.getElementById('lbImg');
+        const count = document.getElementById('lbCount');
+        const SEL = '.zoomable, .cmp-photo, .case-hero-img, .gal-item, .dl-cover';
+
+        const srcOf = (el) => {
+          if (el.dataset.src) return el.dataset.src;
+          const bg = getComputedStyle(el).backgroundImage;
+          const m = bg && bg.match(/url\(["']?(.*?)["']?\)/);
+          return m ? m[1] : null;
+        };
+
+        // фото внутри ссылок не трогаем — там клик ведёт на страницу
+        const items = [...document.querySelectorAll(SEL)]
+          .filter((el) => !el.closest('a'))
+          .map((el) => ({ el, src: srcOf(el) }))
+          .filter((i) => i.src);
+        if (!items.length) return;
+
+        let idx = 0;
+        const show = (i) => {
+          idx = (i + items.length) % items.length;
+          img.src = items[idx].src;
+          count.textContent = items.length > 1 ? `${idx + 1} / ${items.length}` : '';
+        };
+        const open = (i) => { show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; };
+        const close = () => { lb.classList.remove('open'); document.body.style.overflow = ''; };
+
+        items.forEach((item, i) => {
+          item.el.classList.add('zoomable');
+          item.el.addEventListener('click', (e) => { e.preventDefault(); open(i); });
+        });
+
+        document.getElementById('lbClose').addEventListener('click', close);
+        document.getElementById('lbPrev').addEventListener('click', (e) => { e.stopPropagation(); show(idx - 1); });
+        document.getElementById('lbNext').addEventListener('click', (e) => { e.stopPropagation(); show(idx + 1); });
+        lb.addEventListener('click', (e) => { if (e.target === lb || e.target === img) close(); });
+        document.addEventListener('keydown', (e) => {
+          if (!lb.classList.contains('open')) return;
+          if (e.key === 'Escape') close();
+          if (e.key === 'ArrowLeft') show(idx - 1);
+          if (e.key === 'ArrowRight') show(idx + 1);
+        });
+
+        // свайп на мобильных
+        let x0 = null;
+        lb.addEventListener('touchstart', (e) => { x0 = e.changedTouches[0].clientX; }, { passive: true });
+        lb.addEventListener('touchend', (e) => {
+          if (x0 === null) return;
+          const dx = e.changedTouches[0].clientX - x0;
+          if (Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1));
+          x0 = null;
+        }, { passive: true });
+      })();
+    </script>
   </body>
 </html>

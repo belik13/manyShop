@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE } from '../data/site.js';
+import { products } from '../data/products.js';
+import { cases } from '../data/cases.js';
 
 const title = 'Relent — Мебель и комплектация объектов из Китая под ключ';
 const description =
@@ -95,7 +97,7 @@ const jsonld = [
     </div>
     <div class="obj-grid reveal">
       <div class="obj-card">
-        <div class="obj-bg" style="background-image:url('/images/obj-apartments.jpg')"></div>
+        <div class="obj-bg" style="background-image:url('/images/obj-apartments-new.jpg')"></div>
         <div class="obj-overlay"></div>
         <div class="obj-content">
           <div class="obj-num">01</div>
@@ -106,7 +108,7 @@ const jsonld = [
         </div>
       </div>
       <div class="obj-card">
-        <div class="obj-bg" style="background-image:url('/images/obj-house.jpg')"></div>
+        <div class="obj-bg" style="background-image:url('/images/obj-house-new.jpg')"></div>
         <div class="obj-overlay"></div>
         <div class="obj-content">
           <div class="obj-num">02</div>
@@ -117,7 +119,7 @@ const jsonld = [
         </div>
       </div>
       <div class="obj-card">
-        <div class="obj-bg" style="background-image:url('/images/obj-hotel.jpg')"></div>
+        <div class="obj-bg" style="background-image:url('/images/obj-hotel-new.jpg')"></div>
         <div class="obj-overlay"></div>
         <div class="obj-content">
           <div class="obj-num">03</div>
@@ -128,13 +130,35 @@ const jsonld = [
         </div>
       </div>
       <div class="obj-card">
-        <div class="obj-bg" style="background-image:url('/images/hero.jpg')"></div>
+        <div class="obj-bg" style="background-image:url('/images/hotel.jpg')"></div>
         <div class="obj-overlay"></div>
         <div class="obj-content">
           <div class="obj-num">04</div>
           <div>
+            <h4>Глэмпинг</h4>
+            <p>Комплектация модульных домов, глэмпингов и эко-отелей под ключ.</p>
+          </div>
+        </div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-bg" style="background-image:url('/images/obj-office.jpg')"></div>
+        <div class="obj-overlay"></div>
+        <div class="obj-content">
+          <div class="obj-num">05</div>
+          <div>
+            <h4>Офисы</h4>
+            <p>Мебель, освещение и зонирование для офисов и рабочих пространств.</p>
+          </div>
+        </div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-bg" style="background-image:url('/images/obj-commercial-new.jpg')"></div>
+        <div class="obj-overlay"></div>
+        <div class="obj-content">
+          <div class="obj-num">06</div>
+          <div>
             <h4>Коммерческие объекты</h4>
-            <p>Офисы, шоурумы, рестораны и другие пространства.</p>
+            <p>Шоурумы, салоны и общественные пространства.</p>
           </div>
         </div>
       </div>
@@ -150,155 +174,33 @@ const jsonld = [
     </div>
 
     <div class="compare-list reveal">
-      <div class="cmp-row">
-        <div class="cmp-head">
-          <div class="cmp-model">Диван Andersen</div>
-          <div class="cmp-save">Выгода −70%</div>
-        </div>
-        <div class="cmp-pair">
-          <div class="cmp-cell">
-            <div class="cmp-photo" style="background-image:url('/images/product-sofa.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Оригинал</div>
-              <div class="cmp-origin">Италия · Minotti</div>
-              <div class="cmp-price old">$14 000</div>
+      {products.map((p) => (
+        <a class="cmp-row cmp-link" href={`/analog/${p.slug}/`}>
+          <div class="cmp-head">
+            <div class="cmp-model">{p.type} {p.model}</div>
+            <div class="cmp-save">Выгода &minus;{p.save}%</div>
+          </div>
+          <div class="cmp-pair">
+            <div class="cmp-cell">
+              <div class="cmp-photo" style={`background-image:url('${p.photoOrig}')`}></div>
+              <div>
+                <div class="cmp-tag">Оригинал</div>
+                <div class="cmp-origin">{p.country} · {p.brand}</div>
+                <div class="cmp-price old">{p.priceOrig}</div>
+              </div>
+            </div>
+            <div class="cmp-cell china">
+              <div class="cmp-photo" style={`background-image:url('${p.photoChina}')`}></div>
+              <div>
+                <div class="cmp-tag">Та же модель</div>
+                <div class="cmp-origin">Китай · напрямую с фабрики</div>
+                <div class="cmp-price accent">{p.priceChina}</div>
+              </div>
             </div>
           </div>
-          <div class="cmp-cell china">
-            <div class="cmp-photo" style="background-image:url('/images/product-sofa-china.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Та же модель</div>
-              <div class="cmp-origin">Китай · напрямую с фабрики</div>
-              <div class="cmp-price accent">$4 200</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="cmp-row">
-        <div class="cmp-head">
-          <div class="cmp-model">Кресло Nepal</div>
-          <div class="cmp-save">Выгода −70%</div>
-        </div>
-        <div class="cmp-pair">
-          <div class="cmp-cell">
-            <div class="cmp-photo" style="background-image:url('/images/product-chair-italy.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Оригинал</div>
-              <div class="cmp-origin">Италия · Baxter</div>
-              <div class="cmp-price old">$9 500</div>
-            </div>
-          </div>
-          <div class="cmp-cell china">
-            <div class="cmp-photo" style="background-image:url('/images/product-chair-china.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Та же модель</div>
-              <div class="cmp-origin">Китай · напрямую с фабрики</div>
-              <div class="cmp-price accent">$2 900</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="cmp-row">
-        <div class="cmp-head">
-          <div class="cmp-model">Кресло Up 50</div>
-          <div class="cmp-save">Выгода −75%</div>
-        </div>
-        <div class="cmp-pair">
-          <div class="cmp-cell">
-            <div class="cmp-photo" style="background-image:url('/images/product-up5-italy.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Оригинал</div>
-              <div class="cmp-origin">Италия · B&amp;B Italia</div>
-              <div class="cmp-price old">$12 000</div>
-            </div>
-          </div>
-          <div class="cmp-cell china">
-            <div class="cmp-photo" style="background-image:url('/images/product-up5-china.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Та же модель</div>
-              <div class="cmp-origin">Китай · напрямую с фабрики</div>
-              <div class="cmp-price accent">$3 000</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="cmp-row">
-        <div class="cmp-head">
-          <div class="cmp-model">Кухонный стол Butterfly</div>
-          <div class="cmp-save">Выгода −70%</div>
-        </div>
-        <div class="cmp-pair">
-          <div class="cmp-cell">
-            <div class="cmp-photo" style="background-image:url('/images/product-table-italy.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Оригинал</div>
-              <div class="cmp-origin">Италия · Tonin Casa</div>
-              <div class="cmp-price old">$3 200</div>
-            </div>
-          </div>
-          <div class="cmp-cell china">
-            <div class="cmp-photo" style="background-image:url('/images/product-table-china.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Та же модель</div>
-              <div class="cmp-origin">Китай · напрямую с фабрики</div>
-              <div class="cmp-price accent">$950</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="cmp-row">
-        <div class="cmp-head">
-          <div class="cmp-model">Кровать Rimini</div>
-          <div class="cmp-save">Выгода −70%</div>
-        </div>
-        <div class="cmp-pair">
-          <div class="cmp-cell">
-            <div class="cmp-photo" style="background-image:url('/images/product-bed-italy.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Оригинал</div>
-              <div class="cmp-origin">Италия · Fratelli Barri</div>
-              <div class="cmp-price old">$5 300</div>
-            </div>
-          </div>
-          <div class="cmp-cell china">
-            <div class="cmp-photo" style="background-image:url('/images/product-bed-china.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Та же модель</div>
-              <div class="cmp-origin">Китай · напрямую с фабрики</div>
-              <div class="cmp-price accent">$1 600</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="cmp-row">
-        <div class="cmp-head">
-          <div class="cmp-model">Диван Aggi</div>
-          <div class="cmp-save">Выгода −70%</div>
-        </div>
-        <div class="cmp-pair">
-          <div class="cmp-cell">
-            <div class="cmp-photo" style="background-image:url('/images/product-aggi-italy.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Оригинал</div>
-              <div class="cmp-origin">Франция · Hamilton Conte</div>
-              <div class="cmp-price old">$7 000</div>
-            </div>
-          </div>
-          <div class="cmp-cell china">
-            <div class="cmp-photo" style="background-image:url('/images/product-aggi-china.jpg')"></div>
-            <div>
-              <div class="cmp-tag">Та же модель</div>
-              <div class="cmp-origin">Китай · напрямую с фабрики</div>
-              <div class="cmp-price accent">$2 100</div>
-            </div>
-          </div>
-        </div>
-      </div>
+          <div class="cmp-more">Подробнее о модели <span class="btn-arrow">→</span></div>
+        </a>
+      ))}
 
       <div class="cmp-row cmp-cta">
         <div>
@@ -371,129 +273,26 @@ const jsonld = [
   <div class="wrap">
     <div class="section-head reveal">
       <h2>Кейсы</h2>
-      <p>Несколько проектов, реализованных под&nbsp;ключ через прямую комплектацию из&nbsp;Китая.</p>
+      <p>Примеры проектов реализованных под&nbsp;ключ из&nbsp;Китая.</p>
     </div>
     <div class="cases-scroll reveal">
-      <div class="case-card">
-        <div class="case-bg" style="background-image:url('/images/obj-house.jpg')"></div>
-        <div class="case-overlay"></div>
-        <div class="case-content">
-          <div>
-            <div class="case-tag">Частный дом</div>
-            <h4>Полная комплектация</h4>
-            <p>Мебель, освещение и отделочные материалы для дома под ключ.</p>
+      {cases.map((c) => (
+        <a class="case-card" href={`/proekty/${c.slug}/`}>
+          <div class="case-bg" style={`background-image:url('${c.photo}')`}></div>
+          <div class="case-overlay"></div>
+          <div class="case-content">
+            <div>
+              <div class="case-tag">{c.tag}</div>
+              <h4>{c.title}</h4>
+              <p>{c.short}</p>
+            </div>
+            <div class="case-stats">
+              <div><span class="label">Подробности</span><span class="value details-link">Смотреть →</span></div>
+              <div><span class="label">Общий чек</span><span class="value">{c.budget}</span></div>
+            </div>
           </div>
-          <div class="case-stats">
-            <div><span class="label">Подробности</span><span class="value details-link">Смотреть →</span></div>
-            <div><span class="label">Общий чек</span><span class="value">$86 000</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="case-card">
-        <div class="case-bg" style="background-image:url('/images/obj-apartments.jpg')"></div>
-        <div class="case-overlay"></div>
-        <div class="case-content">
-          <div>
-            <div class="case-tag">Апартаменты</div>
-            <h4>Мебель и декор</h4>
-            <p>Подбор мебели и декоративных решений под готовый дизайн-проект.</p>
-          </div>
-          <div class="case-stats">
-            <div><span class="label">Подробности</span><span class="value details-link">Смотреть →</span></div>
-            <div><span class="label">Общий чек</span><span class="value">$41 500</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="case-card">
-        <div class="case-bg" style="background-image:url('/images/hero.jpg')"></div>
-        <div class="case-overlay"></div>
-        <div class="case-content">
-          <div>
-            <div class="case-tag">Коммерческий объект</div>
-            <h4>Общественные пространства</h4>
-            <p>Комплектация рабочих зон и общественных пространств объекта.</p>
-          </div>
-          <div class="case-stats">
-            <div><span class="label">Подробности</span><span class="value details-link">Смотреть →</span></div>
-            <div><span class="label">Общий чек</span><span class="value">$132 000</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="case-card">
-        <div class="case-bg" style="background-image:url('/images/obj-hotel.jpg')"></div>
-        <div class="case-overlay"></div>
-        <div class="case-content">
-          <div>
-            <div class="case-tag">Отель</div>
-            <h4>Номерной фонд</h4>
-            <p>Комплектация типовых номеров по единой спецификации.</p>
-          </div>
-          <div class="case-stats">
-            <div><span class="label">Подробности</span><span class="value details-link">Смотреть →</span></div>
-            <div><span class="label">Общий чек</span><span class="value">$310 000</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="case-card">
-        <div class="case-bg" style="background-image:url('/images/why.jpg')"></div>
-        <div class="case-overlay"></div>
-        <div class="case-content">
-          <div>
-            <div class="case-tag">Студия</div>
-            <h4>Материалы и мебель</h4>
-            <p>Плитка, отделка и мебель для компактного пространства.</p>
-          </div>
-          <div class="case-stats">
-            <div><span class="label">Подробности</span><span class="value details-link">Смотреть →</span></div>
-            <div><span class="label">Общий чек</span><span class="value">$27 800</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="case-card">
-        <div class="case-bg" style="background-image:url('/images/obj-house.jpg')"></div>
-        <div class="case-overlay"></div>
-        <div class="case-content">
-          <div>
-            <div class="case-tag">Ресторан</div>
-            <h4>Мебель и освещение зала</h4>
-            <p>Комплектация обеденной зоны и барной стойки под проект дизайнера.</p>
-          </div>
-          <div class="case-stats">
-            <div><span class="label">Подробности</span><span class="value details-link">Смотреть →</span></div>
-            <div><span class="label">Общий чек</span><span class="value">$58 400</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="case-card">
-        <div class="case-bg" style="background-image:url('/images/obj-apartments.jpg')"></div>
-        <div class="case-overlay"></div>
-        <div class="case-content">
-          <div>
-            <div class="case-tag">Шоурум</div>
-            <h4>Витрины и мебель</h4>
-            <p>Подбор мебели и материалов под фирменный стиль шоурума.</p>
-          </div>
-          <div class="case-stats">
-            <div><span class="label">Подробности</span><span class="value details-link">Смотреть →</span></div>
-            <div><span class="label">Общий чек</span><span class="value">$19 600</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="case-card">
-        <div class="case-bg" style="background-image:url('/images/hero.jpg')"></div>
-        <div class="case-overlay"></div>
-        <div class="case-content">
-          <div>
-            <div class="case-tag">Загородный дом</div>
-            <h4>Полная комплектация</h4>
-            <p>Мебель, свет и отделочные материалы для дома за городом.</p>
-          </div>
-          <div class="case-stats">
-            <div><span class="label">Подробности</span><span class="value details-link">Смотреть →</span></div>
-            <div><span class="label">Общий чек</span><span class="value">$104 000</span></div>
-          </div>
-        </div>
-      </div>
+        </a>
+      ))}
     </div>
   </div>
 </section>
