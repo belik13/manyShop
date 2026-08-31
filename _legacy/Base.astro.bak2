@@ -3,7 +3,6 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../data/site.js';
-import * as SCHEMA from '../data/schema.js';
 
 const {
   title,
@@ -17,29 +16,19 @@ const {
 const canonicalURL = new URL(canonical, Astro.site).href;
 const ogImageURL = new URL(ogImage, Astro.site).href;
 
-const { organization, website, webPage, imageObject, imageId, logoImage } = SCHEMA;
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  url: SITE.url,
+  email: SITE.email,
+  description: SITE.description,
+  sameAs: [SITE.telegramUrl],
+  areaServed: { '@type': 'Country', name: SITE.areaServed },
+};
 
-// Собираем ОДИН граф сущностей: всё связано через @id
-const rawPage = (Array.isArray(jsonld) ? jsonld : [jsonld]).filter(Boolean);
-const pageNodes = rawPage.map((n) => {
-  const { '@context': _drop, ...rest } = n;
-  return rest;
-});
-
-// хлебные крошки получают @id, чтобы WebPage мог на них сослаться
-const crumb = pageNodes.find((n) => n['@type'] === 'BreadcrumbList');
-const crumbId = crumb ? `${canonicalURL}#breadcrumb` : null;
-if (crumb) crumb['@id'] = crumbId;
-
-const graph = [
-  organization(),
-  logoImage(),
-  website(),
-  webPage({ path: canonical, title, description, image: ogImage, breadcrumbId: crumbId }),
-  imageObject(ogImage, title, imageId(canonical)),
-  ...pageNodes,
-];
-const schemaGraph = { '@context': 'https://schema.org', '@graph': graph };
+const pageSchemas = Array.isArray(jsonld) ? jsonld : [jsonld];
+const schemas = [orgSchema, ...pageSchemas];
 ---
 
 <!doctype html>
@@ -69,7 +58,7 @@ const schemaGraph = { '@context': 'https://schema.org', '@graph': graph };
       rel="stylesheet"
     />
 
-    <script type="application/ld+json" set:html={JSON.stringify(schemaGraph)} />
+    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
   </head>
   <body>
     <Header />

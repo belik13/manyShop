@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { SITE } from '../../data/site.js';
 import { services, products } from '../../data/products.js';
+import { orgRef, pageId } from '../../data/schema.js';
 
 export function getStaticPaths() {
   return services.map((s) => ({ params: { type: s.slug }, props: { s } }));
@@ -28,7 +29,8 @@ const jsonld = [
     '@context': 'https://schema.org',
     '@type': 'Service',
     serviceType: `Комплектация ${s.gen} мебелью и материалами из Китая`,
-    provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    provider: orgRef,
+    mainEntityOfPage: { '@id': pageId(path) },
     areaServed: { '@type': 'Country', name: SITE.areaServed },
     description: s.desc,
   },

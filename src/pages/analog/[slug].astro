@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { SITE } from '../../data/site.js';
 import { products, getCategory, productsByCategory, fullName } from '../../data/products.js';
+import { orgRef, pageId, abs } from '../../data/schema.js';
 
 export function getStaticPaths() {
   return products.map((p) => ({ params: { slug: p.slug }, props: { p } }));
@@ -37,14 +38,15 @@ const jsonld = [
     image: [new URL(p.photoChina, SITE.url).href],
     description: p.desc,
     category: cat.name,
-    brand: { '@type': 'Brand', name: 'Relent' },
+    brand: orgRef,
+    mainEntityOfPage: { '@id': pageId(path) },
     offers: {
       '@type': 'Offer',
       price: p.priceChinaNum,
       priceCurrency: p.currency,
       availability: 'https://schema.org/InStock',
       url: SITE.url + path,
-      seller: { '@type': 'Organization', name: SITE.name },
+      seller: orgRef,
     },
   },
 ];
