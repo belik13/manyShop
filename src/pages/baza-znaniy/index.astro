@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../data/site.js';
+import { articles } from '../../data/articles.js';
+import { abs } from '../../data/schema.js';
+
+const path = '/baza-znaniy/';
+const title = 'База знаний: комплектация объектов из Китая — Relent';
+const description =
+  'Справочник по закупке мебели и материалов в Китае: как выбрать и проверить фабрику, какие документы нужны для импорта и из чего складывается стоимость доставки.';
+
+const jsonld = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: 'База знаний', item: abs(path) },
+    ],
+  },
+  {
+    '@type': 'ItemList',
+    name: 'Статьи базы знаний',
+    itemListElement: articles.map((a, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: a.title,
+      url: abs(`/baza-znaniy/${a.slug}/`),
+    })),
+  },
+];
+---
+
+<Base title={title} description={description} canonical={path} ogImage="/images/why-factory.jpg" jsonld={jsonld}>
+  <main class="subpage">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span class="sep">/</span><span class="cur">База знаний</span>
+      </nav>
+      <div class="page-head">
+        <h1>База знаний</h1>
+        <p class="page-lede">
+          Практический справочник по закупке в Китае: как отобрать и проверить производителя,
+          какие документы нужны для импорта и как формируется стоимость доставки.
+          Пишем по опыту работы на месте, в Гуандуне.
+        </p>
+      </div>
+
+      <div class="card-grid">
+        {articles.map((a) => (
+          <a class="pcard" href={`/baza-znaniy/${a.slug}/`}>
+            <div class="pcard-photo" style={`background-image:url('${a.image}')`}></div>
+            <div class="pcard-body">
+              <div class="pcard-name">{a.title}</div>
+              <p style="color:var(--grey); font-size:13.5px; line-height:1.5; margin:2px 0;">{a.lede}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div class="prose" style="padding-top:56px;">
+        <h2>Смежные разделы</h2>
+        <p>
+          Как устроено производство и контроль качества — в разделе
+          {' '}<a href="/kitay/">«Производство в Китае»</a>. Этапы проекта —
+          {' '}<a href="/kak-rabotaem/">«Как проходит работа»</a>. Перевозка, таможня и НДС —
+          {' '}<a href="/dostavka-nds/">«Доставка и НДС»</a>.
+        </p>
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <div class="wrap">
+        <div>
+          <h2>Остались вопросы по вашему проекту?</h2>
+          <p>Ответим и посчитаем стоимость комплектации — бесплатно, по вашей спецификации.</p>
+        </div>
+        <a class="btn light" href="/kontakty/">Получить расчёт <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </main>
+</Base>

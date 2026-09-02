@@ -18,6 +18,7 @@ export const NAV = [
   { label: 'Каталог', href: '/katalog/' },
   { label: 'Проекты', href: '/proekty/' },
   { label: 'Китай', href: '/kitay/' },
+  { label: 'База знаний', href: '/baza-znaniy/' },
   { label: 'Скачать каталоги', href: '/skachat-katalogi/' },
   { label: 'Как работаем', href: '/kak-rabotaem/' },
   { label: 'Контакты', href: '/kontakty/' },

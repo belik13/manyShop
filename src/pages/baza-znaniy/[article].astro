@@ -1,0 +1,127 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../data/site.js';
+import { articles, getArticle } from '../../data/articles.js';
+import { orgRef, pageId, imageId, abs } from '../../data/schema.js';
+
+export function getStaticPaths() {
+  return articles.map((a) => ({ params: { article: a.slug }, props: { a } }));
+}
+
+const { a } = Astro.props;
+const path = `/baza-znaniy/${a.slug}/`;
+const title = `${a.title} — Relent`;
+const description = a.lede;
+
+const related = (a.related || []).map(getArticle).filter(Boolean);
+
+const jsonld = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: SITE.url + '/' },
+      { '@type': 'ListItem', position: 2, name: 'База знаний', item: abs('/baza-znaniy/') },
+      { '@type': 'ListItem', position: 3, name: a.title, item: abs(path) },
+    ],
+  },
+  {
+    '@type': 'Article',
+    '@id': `${abs(path)}#article`,
+    headline: a.h1,
+    description: a.lede,
+    image: { '@id': imageId(path) },
+    author: orgRef,
+    publisher: orgRef,
+    mainEntityOfPage: { '@id': pageId(path) },
+    inLanguage: 'ru-RU',
+    dateModified: a.updated,
+    articleSection: 'База знаний',
+    about: orgRef,
+  },
+];
+---
+
+<Base title={title} description={description} canonical={path} ogImage={a.image} jsonld={jsonld}>
+  <main class="subpage">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a><span class="sep">/</span>
+        <a href="/baza-znaniy/">База знаний</a><span class="sep">/</span>
+        <span class="cur">{a.title}</span>
+      </nav>
+
+      <div class="page-head">
+        <h1>{a.h1}</h1>
+        <p class="page-lede">{a.lede}</p>
+      </div>
+
+      <div
+        style={`aspect-ratio:16/6; background-image:url('${a.image}'); background-size:cover; background-position:center; border:1px solid var(--line); margin-bottom:40px;`}
+        role="img"
+        aria-label={a.title}
+      ></div>
+
+      <div class="prose">
+        <p>{a.intro}</p>
+
+        {a.sections.map((s) => (
+          <>
+            <h2>{s.h2}</h2>
+            {s.p && s.p.map((par) => <p>{par}</p>)}
+            {s.checks && (
+              <ul class="checks">
+                {s.checks.map((c) => <li>{c}</li>)}
+              </ul>
+            )}
+            {s.cards && (
+              <div class="factbar" style="margin:18px 0 8px;">
+                {s.cards.map((c) => (
+                  <div>
+                    <div class="fv" style="font-size:19px;">{c.name}</div>
+                    <div style="color:var(--grey); font-size:13.5px; line-height:1.5; margin-top:8px;">{c.what}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        ))}
+      </div>
+
+      <div style="padding-top:56px;">
+        <h2 style="font-family:var(--ff-display); font-weight:400; font-size:26px; margin-bottom:6px;">
+          Читать дальше
+        </h2>
+        <div class="card-grid">
+          {related.map((r) => (
+            <a class="pcard" href={`/baza-znaniy/${r.slug}/`}>
+              <div class="pcard-photo" style={`background-image:url('${r.image}')`}></div>
+              <div class="pcard-body">
+                <div class="pcard-name">{r.title}</div>
+                <p style="color:var(--grey); font-size:13.5px; line-height:1.5; margin:2px 0;">{r.lede}</p>
+              </div>
+            </a>
+          ))}
+          <a class="pcard" href="/kitay/">
+            <div class="pcard-photo" style="background-image:url('/images/hero.jpg')"></div>
+            <div class="pcard-body">
+              <div class="pcard-name">Производство в Китае</div>
+              <p style="color:var(--grey); font-size:13.5px; line-height:1.5; margin:2px 0;">
+                Фабрики по городам, контроль качества и как идёт закупка.
+              </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <div class="wrap">
+        <div>
+          <h2>Нужен расчёт по вашему проекту?</h2>
+          <p>Пришлите спецификацию — подберём фабрики, проверим качество и посчитаем стоимость.</p>
+        </div>
+        <a class="btn light" href="/kontakty/">Получить расчёт <span class="btn-arrow">→</span></a>
+      </div>
+    </div>
+  </main>
+</Base>
