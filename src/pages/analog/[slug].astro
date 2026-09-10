@@ -74,7 +74,6 @@ const jsonld = [
         <div class="cmp-row">
           <div class="cmp-head">
             <div class="cmp-model">{name}</div>
-            <div class="cmp-save">Выгода −{p.save}%</div>
           </div>
           <div class="cmp-pair">
             <div class="cmp-cell">
@@ -124,15 +123,15 @@ const jsonld = [
 
         <h2>Как заказать аналог {p.brand} {p.model}</h2>
         <p>
-          Пришлите ссылку или фото модели — за 24 часа посчитаем точную стоимость аналога с доставкой до
-          вашего объекта. Бесплатный расчёт, без предоплаты за подбор. Дороже оригинал или дешевле в вашем
+          Пришлите ссылку или фото модели — найдём её у производителей в Китае и покажем, какой будет
+          выгода. Подбор бесплатный, без предоплаты. Дороже оригинал или дешевле в вашем
           случае — покажем прозрачно.
         </p>
       </div>
 
       {related.length > 0 && (
         <div style="padding-top:64px;">
-          <h2 style="font-family:var(--ff-display); font-weight:400; font-size:26px; margin-bottom:6px;">Похожие аналоги</h2>
+          <h2 style="font-family:var(--ff-display); font-weight:500; font-size:26px; margin-bottom:6px;">Похожие аналоги</h2>
           <div class="card-grid">
             {related.map((r) => (
               <a class="pcard" href={`/analog/${r.slug}/`}>
@@ -153,7 +152,7 @@ const jsonld = [
       <div class="wrap">
         <div>
           <h2>Рассчитать {name} из Китая</h2>
-          <p>Бесплатный расчёт по вашей позиции за 24 часа — с ценой, сроками и доставкой по РФ.</p>
+          <p>Бесплатно подберём эту модель у производителя в Китае — чтобы вы увидели выгоду до старта работ.</p>
         </div>
         <a class="btn light" href="/kontakty/">Получить расчёт <span class="btn-arrow">→</span></a>
       </div>
