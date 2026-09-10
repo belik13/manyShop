@@ -50,9 +50,8 @@ const jsonld = [
       <div class="wrap">
         <div class="cta-grid">
           <div class="cta-left">
-            <div class="eyebrow">Получить консультацию</div>
             <h2>Бесплатный расчёт<br>при заполнении заявки</h2>
-            <p>Мы проанализируем проект и предложим решение комплектации напрямую от производителей в Китае. Отвечаем на заявки в течение 3 минут.</p>
+            <p>Оставьте контакты — мы свяжемся, уточним задачу и предложим решение комплектации напрямую от производителей в Китае.</p>
           </div>
           <div class="cta-form-wrap">
             <form id="projectForm">
@@ -78,13 +77,31 @@ const jsonld = [
                 </select>
               </div>
               <button type="submit" class="btn light form-submit">Бесплатный расчёт <span class="btn-arrow">→</span></button>
-              <div class="form-note">Отвечаем на заявки в течение 3 минут</div>
+              <div class="form-note">Ответим в течение рабочего дня. Расчёт ни к чему не обязывает.</div>
             </form>
           </div>
-          <div class="cta-steps">
-            <div><span>01</span> Заявка принимается в работу в течение суток</div>
-            <div><span>02</span> Подбираем позиции и фабрики под ваш бюджет</div>
-            <div><span>03</span> Присылаем расчёт со сроками и стоимостью</div>
+          <div class="cta-info">
+            <div class="cta-info-item">
+              <span class="n">01</span>
+              <div>
+                <h4>Что прислать</h4>
+                <p>Дизайн-проект, спецификацию или просто фото и ссылки на мебель, которая понравилась.</p>
+              </div>
+            </div>
+            <div class="cta-info-item">
+              <span class="n">02</span>
+              <div>
+                <h4>Что вы получите</h4>
+                <p>Бесплатно подберём 3 позиции из вашего проекта у производителей в Китае — чтобы вы увидели выгоду до старта работ.</p>
+              </div>
+            </div>
+            <div class="cta-info-item">
+              <span class="n">03</span>
+              <div>
+                <h4>Удобнее написать напрямую?</h4>
+                <p>Telegram <a href={SITE.telegramUrl} target="_blank" rel="noopener">{SITE.telegram}</a> или почта <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

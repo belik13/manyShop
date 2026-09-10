@@ -24,21 +24,21 @@ const jsonld = [
 <section class="hero" id="top">
   <div class="hero-photo"></div>
   <svg class="hero-routes" viewBox="0 0 1280 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M -50 620 Q 300 500 620 560 T 1330 420" stroke="rgba(233,230,222,0.14)" stroke-width="1" fill="none"/>
-    <path d="M -50 680 Q 340 590 700 640 T 1330 520" stroke="rgba(233,230,222,0.08)" stroke-width="1" fill="none"/>
+    <path d="M -50 620 Q 300 500 620 560 T 1330 420" stroke="rgba(247,246,242,0.14)" stroke-width="1" fill="none"/>
+    <path d="M -50 680 Q 340 590 700 640 T 1330 520" stroke="rgba(247,246,242,0.08)" stroke-width="1" fill="none"/>
     <circle cx="1100" cy="480" r="3" fill="#a9adaa"/>
-    <circle cx="200" cy="600" r="3" fill="rgba(233,230,222,0.4)"/>
+    <circle cx="200" cy="600" r="3" fill="rgba(247,246,242,0.4)"/>
   </svg>
   <div class="hero-content">
     <div class="wrap">
       <div>
-        <h1>Комплектация мебелью и&nbsp;материалами <em>напрямую из&nbsp;Китая</em>, под&nbsp;ключ</h1>
+        <h1>Комплектация мебелью и&nbsp;материалами под&nbsp;ключ <em>напрямую из&nbsp;Китая</em></h1>
       </div>
       <div>
         <p class="lede">От подбора материалов и&nbsp;мебели до&nbsp;контроля производства, инспекции качества и&nbsp;доставки на&nbsp;объект.</p>
         <div class="hero-cta-group">
-          <a class="btn light" href="#contact">Отправить проект <span class="btn-arrow">→</span></a>
-          <div class="hero-cta-note">Бесплатный расчёт <strong>10 позиций</strong> проекта</div>
+          <a class="btn light" href="#contact">Бесплатный расчёт <span class="btn-arrow">→</span></a>
+          <div class="hero-cta-note">Считаем <strong>3 позиции</strong> вашего проекта</div>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@ const jsonld = [
   <div class="wrap">
     <div class="get-grid reveal">
       <div class="get-item">
-        <svg class="stamp" viewBox="0 0 74 74"><circle cx="37" cy="37" r="33" stroke="var(--accent)" stroke-width="1"/><circle cx="37" cy="37" r="27" stroke="var(--accent)" stroke-width="1"/><path d="M25 38 L33 46 L50 27" stroke="var(--accent)" stroke-width="2" fill="none"/></svg>
+        <svg class="stamp" viewBox="0 0 74 74"><circle cx="37" cy="37" r="33" stroke="var(--accent)" stroke-width="1"/><path d="M25 38 L33 46 L50 27" stroke="var(--accent)" stroke-width="1.6" fill="none"/></svg>
         <div><h4>Один подрядчик</h4><p>Вместо множества подрядчиков — одна точка ответственности за&nbsp;весь проект.</p></div>
       </div>
       <div class="get-item">
@@ -82,7 +82,7 @@ const jsonld = [
         <div><h4>Инспекция перед отгрузкой</h4><p>Проверка на&nbsp;брак и&nbsp;дефекты до&nbsp;того, как груз покинет фабрику.</p></div>
       </div>
       <div class="get-item">
-        <svg class="stamp" viewBox="0 0 74 74"><circle cx="37" cy="37" r="33" stroke="var(--accent)" stroke-width="1"/><rect x="16" y="30" width="22" height="14" stroke="var(--accent)" stroke-width="1.3" fill="none"/><path d="M38 34 h8 l6 6 v4 h-14 z" stroke="var(--accent)" stroke-width="1.3" fill="none"/><circle cx="25" cy="46" r="3.2" stroke="var(--accent)" stroke-width="1.2" fill="none"/><circle cx="46" cy="46" r="3.2" stroke="var(--accent)" stroke-width="1.2" fill="none"/><line x1="12" y1="46" x2="18" y2="46" stroke="var(--accent)" stroke-width="1"/></svg>
+        <svg class="stamp" viewBox="0 0 74 74"><circle cx="37" cy="37" r="33" stroke="var(--accent)" stroke-width="1"/><rect x="20" y="27" width="20" height="15" stroke="var(--accent)" stroke-width="1.3" fill="none"/><path d="M40 32 h7 l5 5 v5 h-12 z" stroke="var(--accent)" stroke-width="1.3" fill="none" stroke-linejoin="round"/><circle cx="27" cy="45" r="3" stroke="var(--accent)" stroke-width="1.2" fill="none"/><circle cx="46" cy="45" r="3" stroke="var(--accent)" stroke-width="1.2" fill="none"/><line x1="19" y1="48" x2="55" y2="48" stroke="var(--accent)" stroke-width="1"/></svg>
         <div><h4>Логистика и&nbsp;доставка</h4><p>Белая логистика, вычет НДС. Консолидация грузов и&nbsp;бережная доставка на&nbsp;объект.</p></div>
       </div>
     </div>
@@ -169,7 +169,7 @@ const jsonld = [
 <section id="compare">
   <div class="wrap">
     <div class="section-head reveal">
-      <h2>Одинаковое качество<br>за&nbsp;разные цены</h2>
+      <h2>Выгода при&nbsp;работе<br>с&nbsp;нами</h2>
       <p>Те&nbsp;же модели, тот&nbsp;же силуэт и&nbsp;материалы — но&nbsp;цена собирается на&nbsp;фабрике в&nbsp;Китае, а&nbsp;не&nbsp;в&nbsp;бутике в&nbsp;Милане.</p>
     </div>
 
@@ -178,7 +178,6 @@ const jsonld = [
         <a class="cmp-row cmp-link" href={`/analog/${p.slug}/`}>
           <div class="cmp-head">
             <div class="cmp-model">{p.type} {p.model}</div>
-            <div class="cmp-save">Выгода &minus;{p.save}%</div>
           </div>
           <div class="cmp-pair">
             <div class="cmp-cell">
@@ -204,7 +203,7 @@ const jsonld = [
 
       <div class="cmp-row cmp-cta">
         <div>
-          <div class="cmp-model">Ваша модель из списка</div>
+          <div class="cmp-model">Убедитесь сами</div>
           <p>Пришлите позицию или дизайн-проект — подберём ту&nbsp;же модель на&nbsp;фабрике в&nbsp;Китае и&nbsp;посчитаем цену.</p>
         </div>
         <a class="btn light" href="#contact">Рассчитать бесплатно <span class="btn-arrow">→</span></a>
@@ -239,10 +238,10 @@ const jsonld = [
     <div class="process-list reveal">
       <div class="p-step">
         <h4>Проект</h4>
-        <p>Получаем дизайн-проект, спецификацию или&nbsp;техническое задание и&nbsp;анализируем объём поставки. Бесплатный подбор 10&nbsp;наименований для&nbsp;понимания выгоды.</p>
+        <p>Получаем дизайн-проект, спецификацию или&nbsp;техническое задание и&nbsp;анализируем объём поставки. Бесплатный подбор 3&nbsp;наименования для&nbsp;понимания выгоды.</p>
       </div>
       <div class="p-step">
-        <h4>Начало работы</h4>
+        <h4>Договор</h4>
         <p>Заключаем договор, фиксируем объём работ и&nbsp;после внесения депозита приступаем к&nbsp;подбору производителей.</p>
       </div>
       <div class="p-step">
@@ -299,18 +298,18 @@ const jsonld = [
 
 <section id="why">
   <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Почему клиенты<br>работают с&nbsp;нами</h2>
+      <p>Мы находимся в&nbsp;Китае и&nbsp;работаем непосредственно с&nbsp;производителями.</p>
+    </div>
     <div class="why">
-      <div class="reveal">
-        <h2>Почему клиенты<br>работают с&nbsp;нами</h2>
-        <p class="why-quote">Мы находимся <span class="red">в&nbsp;Китае</span> и&nbsp;работаем непосредственно с&nbsp;производителями.</p>
-        <div class="why-photo"></div>
-      </div>
       <div class="why-list reveal">
         <div><span class="n">01</span> Полная прозрачность действий</div>
         <div><span class="n">02</span> Контролируем качество каждого изделия</div>
         <div><span class="n">03</span> Одна компания вместо 20 посредников</div>
         <div><span class="n">04</span> Договоры более чем с&nbsp;150 фабриками</div>
       </div>
+      <div class="why-photo reveal" role="img" aria-label="Шоурум образцов отделочных материалов у производителя"></div>
     </div>
   </div>
 </section>
@@ -319,9 +318,8 @@ const jsonld = [
   <div class="wrap">
     <div class="cta-grid">
       <div class="cta-left reveal">
-        <div class="eyebrow">Получить консультацию</div>
         <h2>Бесплатный расчёт<br>при заполнении заявки</h2>
-        <p>Отправьте дизайн-проект, спецификацию или&nbsp;визуализацию объекта. Мы&nbsp;проанализируем проект и&nbsp;предложим решение комплектации напрямую от&nbsp;производителей в&nbsp;Китае.</p>
+        <p>Оставьте контакты&nbsp;— мы&nbsp;свяжемся, уточним задачу и&nbsp;предложим решение комплектации напрямую от&nbsp;производителей в&nbsp;Китае.</p>
       </div>
       <div class="cta-form-wrap reveal">
         <form id="projectForm">
@@ -347,13 +345,31 @@ const jsonld = [
             </select>
           </div>
           <button type="submit" class="btn light form-submit">Бесплатный расчёт <span class="btn-arrow">→</span></button>
-          <div class="form-note">Отвечаем на заявки в течение 3 минут</div>
+          <div class="form-note">Ответим в&nbsp;течение рабочего дня. Расчёт ни&nbsp;к&nbsp;чему не&nbsp;обязывает.</div>
         </form>
       </div>
-      <div class="cta-steps reveal">
-        <div><span>01</span> Заявка принимается в работу в течение суток</div>
-        <div><span>02</span> Подбираем позиции и фабрики под ваш бюджет</div>
-        <div><span>03</span> Присылаем расчёт со сроками и стоимостью</div>
+      <div class="cta-info reveal">
+        <div class="cta-info-item">
+          <span class="n">01</span>
+          <div>
+            <h4>Что прислать</h4>
+            <p>Дизайн-проект, спецификацию или&nbsp;просто фото и&nbsp;ссылки на&nbsp;мебель, которая понравилась.</p>
+          </div>
+        </div>
+        <div class="cta-info-item">
+          <span class="n">02</span>
+          <div>
+            <h4>Что вы получите</h4>
+            <p>Бесплатно подберём 3&nbsp;позиции из&nbsp;вашего проекта у&nbsp;производителей в&nbsp;Китае&nbsp;— чтобы вы увидели выгоду до&nbsp;старта работ.</p>
+          </div>
+        </div>
+        <div class="cta-info-item">
+          <span class="n">03</span>
+          <div>
+            <h4>Удобнее написать напрямую?</h4>
+            <p>Telegram <a href={SITE.telegramUrl} target="_blank" rel="noopener">{SITE.telegram}</a> или&nbsp;почта <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

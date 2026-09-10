@@ -86,7 +86,7 @@ const jsonld = [
 
       {c.gallery.length > 0 && (
         <div style="padding-top:56px;">
-          <h2 style="font-family:var(--ff-display); font-weight:400; font-size:26px; margin-bottom:16px;">Фотографии объекта</h2>
+          <h2 style="font-family:var(--ff-display); font-weight:500; font-size:26px; margin-bottom:16px;">Фотографии объекта</h2>
           <div class="gallery">
             {c.gallery.map((g) => (
               <div class="gal-item zoomable" data-src={g} style={`background-image:url('${g}')`}></div>
@@ -96,7 +96,7 @@ const jsonld = [
       )}
 
       <div style="padding-top:64px;">
-        <h2 style="font-family:var(--ff-display); font-weight:400; font-size:26px; margin-bottom:6px;">Другие проекты</h2>
+        <h2 style="font-family:var(--ff-display); font-weight:500; font-size:26px; margin-bottom:6px;">Другие проекты</h2>
         <div class="card-grid">
           {others.map((o) => (
             <a class="pcard" href={`/proekty/${o.slug}/`}>
@@ -116,7 +116,7 @@ const jsonld = [
       <div class="wrap">
         <div>
           <h2>Рассчитать похожий проект</h2>
-          <p>Бесплатный расчёт 10 позиций по вашему дизайн-проекту — за 24 часа.</p>
+          <p>Бесплатный расчёт 3 позиции по вашему дизайн-проекту — за 24 часа.</p>
         </div>
         <a class="btn light" href="/kontakty/">Отправить проект <span class="btn-arrow">→</span></a>
       </div>

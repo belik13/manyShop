@@ -62,12 +62,19 @@ const schemaGraph = { '@context': 'https://schema.org', '@graph': graph };
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/CoFoRobertSans-VF.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
+
+    <script is:inline>
+      // ставим флаг до первой отрисовки: без JS контент виден сразу,
+      // с JS — включается появление по скроллу
+      document.documentElement.classList.add('js');
+    </script>
 
     <script type="application/ld+json" set:html={JSON.stringify(schemaGraph)} />
   </head>
@@ -86,6 +93,9 @@ const schemaGraph = { '@context': 'https://schema.org', '@graph': graph };
       }
 
       // ---- reveal on scroll ----
+      // threshold 0 + отрицательный rootMargin: высокие блоки (сравнение, кейсы)
+      // раньше не набирали 15% видимости и оставались скрытыми
+      const reveals = document.querySelectorAll('.reveal');
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
@@ -95,9 +105,19 @@ const schemaGraph = { '@context': 'https://schema.org', '@graph': graph };
             }
           });
         },
-        { threshold: 0.15 }
+        { threshold: 0, rootMargin: '0px 0px -8% 0px' }
       );
-      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+      reveals.forEach((el) => io.observe(el));
+
+      // всё, что уже в первом экране, показываем сразу — без ожидания скролла
+      requestAnimationFrame(() => {
+        reveals.forEach((el) => {
+          if (el.getBoundingClientRect().top < window.innerHeight) {
+            el.classList.add('in-view');
+            io.unobserve(el);
+          }
+        });
+      });
 
       // ---- cases carousel: drag-to-scroll (desktop) ----
       const casesScroll = document.querySelector('.cases-scroll');
